@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner
 
 @RunWith(SpringRunner::class)
 @SpringBootTest
-class PenguFilesApplicationTests {
+class PegnuFilesApplicationTests {
 
 	@Test
 	fun contextLoads() {

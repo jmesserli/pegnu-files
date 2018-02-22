@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head data-th-replace="base :: head"></head>
+<body>
+<th-block data-th-replace="base :: nav"></th-block>
+
+<div class="container">
+    <ul class="list-group">
+        <li class="list-group-item list-group-item-action"
+            data-th-each="file: ${files}">
+            <i class="fas fa-folder" data-th-class="'fas ' + (${file.directory} ? 'fa-folder' : '')"></i>
+            <span data-th-text="${file.path.fileName}"></span>
+        </li>
+    </ul>
+</div>
+
+<th-block data-th-replace="base :: foot"></th-block>
+</body>
+</html>
