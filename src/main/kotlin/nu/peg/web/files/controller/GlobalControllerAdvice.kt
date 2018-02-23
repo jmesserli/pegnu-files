@@ -3,6 +3,7 @@ package nu.peg.web.files.controller
 import nu.peg.web.files.config.FilesProperties
 import nu.peg.web.files.file.SubPathIsNotInBasePathException
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -16,6 +17,13 @@ class GlobalControllerAdvice @Autowired constructor(
     @ModelAttribute("baseUrl")
     fun baseUrl(): String {
         return config.application.baseUrl
+    }
+
+    @ModelAttribute("loggedIn")
+    fun loggedIn(): Boolean {
+        val auth = SecurityContextHolder.getContext().authentication
+
+        return auth != null && auth.isAuthenticated && !auth.authorities.any { it.authority == "ROLE_ANONYMOUS" }
     }
 
     @ExceptionHandler(NoSuchFileException::class)
