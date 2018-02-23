@@ -45,8 +45,10 @@ constructor(
         val (basePath, targetPath) = checkSubpath(config.listing.baseDirectory, subPath)
 
         val homeDto = BreadcrumbDto("", "Home", "fa-home")
-        if (basePath == targetPath)
+        if (basePath == targetPath) {
+            homeDto.active = true
             return listOf(homeDto)
+        }
 
         val breadcrumbs: MutableList<BreadcrumbDto> = mutableListOf()
         val relativeTargetPath = basePath.relativize(targetPath)
@@ -58,6 +60,7 @@ constructor(
             ))
         } while ({ parent = parent.parent; parent }() != null)
         breadcrumbs.add(homeDto)
+        breadcrumbs[0].active = true
 
         return breadcrumbs.reversed()
     }
@@ -100,7 +103,8 @@ data class PathCheckResult(
 data class BreadcrumbDto(
         val relativePath: String,
         val name: String,
-        val icon: String? = null
+        val icon: String? = null,
+        var active: Boolean = false
 )
 
 class TargetIsFileException : IOException("The target path is not a directory")

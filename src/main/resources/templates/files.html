@@ -7,11 +7,17 @@
 <div class="container">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item" data-th-each="breadcrumb: ${breadcrumbs}">
-                <a data-th-href="@{/files(path=${breadcrumb.relativePath})}">
+            <li class="breadcrumb-item"
+                data-th-class="${'breadcrumb-item ' + (breadcrumb.active ? 'active' : '')}"
+                data-th-each="breadcrumb: ${breadcrumbs}">
+                <a data-th-href="@{/files(path=${breadcrumb.relativePath})}" data-th-if="${!breadcrumb.active}">
                     <i data-th-class="'fas ' + ${breadcrumb.icon}" data-th-if="${breadcrumb.icon != null}"></i>
                     <span data-th-text="${breadcrumb.name}"></span>
                 </a>
+                <div class="d-inline-block" data-th-if="${breadcrumb.active}">
+                    <i data-th-class="'fas ' + ${breadcrumb.icon}" data-th-if="${breadcrumb.icon != null}"></i>
+                    <span data-th-text="${breadcrumb.name}"></span>
+                </div>
             </li>
         </ol>
     </nav>
