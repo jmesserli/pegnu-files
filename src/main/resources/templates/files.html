@@ -24,12 +24,42 @@
         </nav>
 
         <div data-th-if="${loggedIn}" class="ml-3">
-            <button type="button" class="btn btn-lg btn-outline-primary">
-                <i class="fas fa-upload"></i>
-            </button>
-            <button type="button" class="btn btn-lg btn-outline-primary">
-                <i class="fas fa-folder-open"></i>
-            </button>
+            <div class="btn-group">
+                <button type="button" class="btn btn-lg btn-outline-primary dropdown-toggle"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-upload"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <form class="px-4 py-3" style="min-width: 20rem" enctype="multipart/form-data"
+                          data-th-action="@{/uploadFile}" method="post">
+                        <input type="hidden" name="path" data-th-value="${path}"/>
+                        <div class="form-group input-group">
+                            <div class="custom-file">
+                                <input type="file" name="file" class="custom-file-input" id="upload-file"/>
+                                <label class="custom-file-label" for="upload-file">Choose file</label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                    </form>
+                </div>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-lg btn-outline-primary dropdown-toggle"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-folder-open"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <form class="px-4 py-3" style="min-width: 20rem" data-th-action="@{/createFolder}" method="get">
+                        <input type="hidden" data-th-value="${path}" name="path"/>
+                        <div class="form-group">
+                            <label for="create-folder">Create folder</label>
+                            <input type="text" name="folderName" class="form-control"
+                                   id="create-folder" placeholder="Folder"/>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -40,6 +70,11 @@
                style="flex-grow : 1; text-align: left;">
                 <i class="fas fa-folder" data-th-class="'fas ' + (${file.directory} ? 'fa-folder' : 'fa-file')"></i>
                 <span class="ml-3" data-th-text="${file.fileName}">Filename.pdf</span>
+            </a>
+            <a class="btn btn-sm btn-danger d-flex align-items-center"
+               data-th-href="@{/deleteFile(path=${file.relativePath})}"
+               data-th-if="${loggedIn &amp;&amp; (file.fileName != '..')}">
+                <i class="fas fa-trash"></i>
             </a>
             <button class="btn btn-sm btn-clipboard btn-secondary m-0"
                     data-th-attr="data-clipboard-text=@{${baseUrl + '/files'}(path=${file.relativePath})}">

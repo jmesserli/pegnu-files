@@ -3,6 +3,7 @@ package nu.peg.web.files.file
 import nu.peg.web.files.config.FilesProperties
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import org.springframework.web.multipart.MultipartFile
 import java.io.IOException
 import java.net.URI
 import java.nio.file.*
@@ -63,6 +64,34 @@ constructor(
         breadcrumbs[0].active = true
 
         return breadcrumbs.reversed()
+    }
+
+    fun createFolder(subPath: String, folderName: String): String {
+        val (basePath, targetPath) = checkSubpath(config.listing.baseDirectory, subPath)
+        val folderTarget = targetPath.resolve(folderName).normalize()
+
+        if (!folderTarget.startsWith(basePath)) {
+            throw SubPathIsNotInBasePathException()
+        }
+
+        if (!Files.exists(folderTarget)) {
+            Files.createDirectory(folderTarget)
+        }
+
+        return basePath.relativize(folderTarget).normalize().toString()
+    }
+
+    fun uploadFile(subPath: String, file: MultipartFile): String {
+        val (basePath, targetPath) = checkSubpath(config.listing.baseDirectory, subPath)
+        val filePath = targetPath.resolve(file.originalFilename).normalize()
+
+        if (!filePath.startsWith(basePath)) {
+            throw SubPathIsNotInBasePathException()
+        }
+
+        file.transferTo(filePath.toFile())
+
+        return basePath.relativize(filePath.parent).normalize().toString()
     }
 
     private fun checkSubpath(baseDir: String, subPath: String): PathCheckResult {

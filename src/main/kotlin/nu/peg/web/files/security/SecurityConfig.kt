@@ -10,6 +10,10 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
         http.formLogin()
                 .loginProcessingUrl("/do-login")
                 .defaultSuccessUrl("/", true)
+                .successHandler({ request, response, _ ->
+                    val path = request.getParameter("path")
+                    response.sendRedirect("/files?path=$path")
+                })
                 .failureUrl("/auth_error")
                 .and()
                 .logout()

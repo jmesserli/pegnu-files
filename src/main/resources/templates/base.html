@@ -48,6 +48,7 @@
                                    required="" name="password"/>
                         </div>
                         <input type="hidden" data-th-attr="name=${_csrf.parameterName},value=${_csrf.token}"/>
+                        <input type="hidden" name="path" data-th-if="${path}" data-th-value="${path}"/>
                         <button type="submit" class="btn btn-primary">Sign in</button>
                     </form>
                 </div>
