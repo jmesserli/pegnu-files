@@ -4,3 +4,5 @@ spring:
 security:
   user:
     password: secret
+
+files.listing.baseDirectory: /home/dev/development
