@@ -64,7 +64,7 @@ pipeline {
 
             steps {
                 sh 'docker login -u "$DOCKER_USR" -p "$DOCKER_PSW" docker.pegnu.cloud:443'
-                sh 'docker build -t docker.pegnu.cloud:443/pegnu-files:latest -t docker.pegnu.cloud:443/pegnu-files:$FULL_VERSION discord-bot'
+                sh 'docker build -t docker.pegnu.cloud:443/pegnu-files:latest -t docker.pegnu.cloud:443/pegnu-files:$FULL_VERSION .'
                 sh 'docker push docker.pegnu.cloud:443/pegnu-files:latest && docker push docker.pegnu.cloud:443/pegnu-files:$FULL_VERSION'
 
                 sh '/opt/octo/Octo push --package build/distributions/pegnu-files-configuration.$FULL_VERSION.zip --replace-existing --server https://deploy.pegnu.cloud --apiKey $OCTOPUS_API_KEY'
