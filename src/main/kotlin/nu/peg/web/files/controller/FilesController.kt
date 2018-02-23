@@ -33,6 +33,7 @@ class FilesController @Autowired constructor(
         }
 
         model.addAttribute("files", files)
+        model.addAttribute("breadcrumbs", fileService.generateBreadcrumbs(path))
         return "files"
     }
 

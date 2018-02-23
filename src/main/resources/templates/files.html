@@ -5,6 +5,17 @@
 <th-block data-th-replace="base :: nav"></th-block>
 
 <div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item" data-th-each="breadcrumb: ${breadcrumbs}">
+                <a data-th-href="@{/files(path=${breadcrumb.relativePath})}">
+                    <i data-th-class="'fas ' + ${breadcrumb.icon}" data-th-if="${breadcrumb.icon != null}"></i>
+                    <span data-th-text="${breadcrumb.name}"></span>
+                </a>
+            </li>
+        </ol>
+    </nav>
+
     <div class="list-group">
         <div class="list-group-item p-0 d-flex"
              data-th-each="file: ${files}">
@@ -13,7 +24,7 @@
                 <i class="fas fa-folder" data-th-class="'fas ' + (${file.directory} ? 'fa-folder' : 'fa-file')"></i>
                 <span class="ml-3" data-th-text="${file.fileName}">Filename.pdf</span>
             </a>
-            <button class="btn btn-sm btn-clipboard btn-light m-0"
+            <button class="btn btn-sm btn-clipboard btn-secondary m-0"
                     data-th-attr="data-clipboard-text=@{${baseUrl + '/files'}(path=${file.relativePath})}">
                 <i class="fas fa-link"></i>
             </button>

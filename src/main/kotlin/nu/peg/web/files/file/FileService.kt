@@ -41,6 +41,27 @@ constructor(
         return URI("${config.download.baseUrl}/$relativeTargetPath").normalize()
     }
 
+    fun generateBreadcrumbs(subPath: String): List<BreadcrumbDto> {
+        val (basePath, targetPath) = checkSubpath(config.listing.baseDirectory, subPath)
+
+        val homeDto = BreadcrumbDto("", "Home", "fa-home")
+        if (basePath == targetPath)
+            return listOf(homeDto)
+
+        val breadcrumbs: MutableList<BreadcrumbDto> = mutableListOf()
+        val relativeTargetPath = basePath.relativize(targetPath)
+        var parent = relativeTargetPath
+        do {
+            breadcrumbs.add(BreadcrumbDto(
+                    parent.toString(),
+                    parent.fileName.toString()
+            ))
+        } while ({ parent = parent.parent; parent }() != null)
+        breadcrumbs.add(homeDto)
+
+        return breadcrumbs.reversed()
+    }
+
     private fun checkSubpath(baseDir: String, subPath: String): PathCheckResult {
         val basePath = Paths.get(baseDir)
         val targetPath = Paths.get(baseDir, subPath).normalize()
@@ -78,7 +99,8 @@ data class PathCheckResult(
 
 data class BreadcrumbDto(
         val relativePath: String,
-        val name: String
+        val name: String,
+        val icon: String? = null
 )
 
 class TargetIsFileException : IOException("The target path is not a directory")
