@@ -28,13 +28,12 @@
                 <!--</li>-->
             </ul>
 
-            <div class="dropdown">
+            <div class="dropdown" data-th-if="${!loggedIn}">
                 <button class="btn btn-outline-light dropdown-toggle" type="button" id="loginDropdown"
                         data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
                     Login
                 </button>
-                <p data-th-text="${loggedIn}"></p>
                 <div class="dropdown-menu" style="left:unset;right:0;">
                     <form class="px-4 py-3" style="min-width: 20rem;" action="/do-login"
                           method="post">
@@ -53,6 +52,14 @@
                     </form>
                 </div>
             </div>
+            <span class="navbar-text" data-th-text="'Hallo, ' + ${username}" data-th-if="${loggedIn}">Hallo, User</span>
+            <form data-th-action="@{/do-logout}" method="post">
+                <input type="hidden" data-th-attr="name=${_csrf.parameterName},value=${_csrf.token}"/>
+
+                <button type="submit" class="btn btn-outline-light ml-3" data-th-href="@{/logout}"
+                        data-th-if="${loggedIn}">Logout
+                </button>
+            </form>
         </div>
     </div>
 </nav>

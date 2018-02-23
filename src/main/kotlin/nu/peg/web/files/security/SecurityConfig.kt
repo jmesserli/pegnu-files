@@ -11,5 +11,9 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                 .loginProcessingUrl("/do-login")
                 .defaultSuccessUrl("/", true)
                 .failureUrl("/auth_error")
+                .and()
+                .logout()
+                .logoutUrl("/do-logout")
+                .logoutSuccessUrl("/")
     }
 }

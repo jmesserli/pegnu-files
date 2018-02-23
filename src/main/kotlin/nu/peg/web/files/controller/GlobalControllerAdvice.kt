@@ -26,6 +26,13 @@ class GlobalControllerAdvice @Autowired constructor(
         return auth != null && auth.isAuthenticated && !auth.authorities.any { it.authority == "ROLE_ANONYMOUS" }
     }
 
+    @ModelAttribute("username")
+    fun username(): String {
+        val auth = SecurityContextHolder.getContext().authentication
+
+        return auth?.name ?: "no-user"
+    }
+
     @ExceptionHandler(NoSuchFileException::class)
     fun `404`(model: Model): String {
         model.addAttribute("statusCode", "404")
