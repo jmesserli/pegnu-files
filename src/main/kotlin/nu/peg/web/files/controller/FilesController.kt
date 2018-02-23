@@ -1,6 +1,7 @@
 package nu.peg.web.files.controller
 
-import nu.peg.web.files.file.FileListingService
+import nu.peg.web.files.file.FileService
+import nu.peg.web.files.file.TargetIsFileException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -10,7 +11,7 @@ import org.springframework.web.servlet.view.RedirectView
 
 @Controller
 class FilesController @Autowired constructor(
-        private val fileListingService: FileListingService
+        private val fileService: FileService
 ) {
     @GetMapping("/")
     fun home(): RedirectView {
@@ -22,11 +23,25 @@ class FilesController @Autowired constructor(
             model: Model,
             @RequestParam("path", required = false, defaultValue = "")
             path: String
-    ): String {
-        val files = fileListingService.listFiles(path)
+    ): Any {
+        val files = try {
+            fileService.listFiles(path)
+        } catch (ex: TargetIsFileException) {
+            val view = RedirectView("/download")
+            view.setPropagateQueryParams(true)
+            return view
+        }
 
         model.addAttribute("files", files)
-
         return "files"
+    }
+
+    @GetMapping("/download")
+    fun download(
+            @RequestParam("path", required = true)
+            path: String
+    ): RedirectView {
+        val downloadUri = fileService.getDownloadLink(path)
+        return RedirectView(downloadUri.toString())
     }
 }

@@ -6,8 +6,8 @@
 
 <div class="container">
     <div class="jumbotron">
-        <h1 class="display-4">404</h1>
-        <p class="lead">The page you are looking for could not be found</p>
+        <h1 class="display-4" data-th-text="${statusCode}">500</h1>
+        <p class="lead" data-th-text="${statusText}">Unknown error</p>
         <p class="lead">
             <a class="btn btn-primary btn-lg" href="/" role="button">Back home</a>
         </p>

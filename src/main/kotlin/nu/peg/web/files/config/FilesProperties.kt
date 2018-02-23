@@ -8,9 +8,15 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty
 @ConfigurationProperties("files")
 class FilesProperties(
         @NestedConfigurationProperty
-        var listing: FilesListingProperties = FilesListingProperties()
+        var listing: FilesListingProperties = FilesListingProperties(),
+        @NestedConfigurationProperty
+        var download: FilesDownloadProperties = FilesDownloadProperties()
 )
 
 class FilesListingProperties(
         var baseDirectory: String = "./"
+)
+
+class FilesDownloadProperties(
+        var baseUrl: String = "https://cdn.peg.nu/files"
 )
