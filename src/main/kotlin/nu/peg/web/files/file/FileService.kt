@@ -94,6 +94,13 @@ constructor(
         return basePath.relativize(filePath.parent).normalize().toString()
     }
 
+    fun deleteFile(subPath: String): String {
+        val (basePath, targetPath) = checkSubpath(config.listing.baseDirectory, subPath)
+        Files.delete(targetPath)
+
+        return basePath.relativize(targetPath.parent).normalize().toString()
+    }
+
     private fun checkSubpath(baseDir: String, subPath: String): PathCheckResult {
         val basePath = Paths.get(baseDir)
         val targetPath = Paths.get(baseDir, subPath).normalize()

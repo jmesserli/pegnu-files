@@ -19,5 +19,9 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                 .logout()
                 .logoutUrl("/do-logout")
                 .logoutSuccessUrl("/")
+                .and()
+                .authorizeRequests()
+                .antMatchers("/", "/files", "/download").permitAll()
+                .anyRequest().hasRole("USER")
     }
 }

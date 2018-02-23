@@ -52,7 +52,6 @@ class FilesController @Autowired constructor(
         return RedirectView(downloadUri.toString())
     }
 
-    @Secured("ROLE_USER")
     @GetMapping("/createFolder")
     fun createFolder(
             @RequestParam("path", required = true)
@@ -65,13 +64,20 @@ class FilesController @Autowired constructor(
         return ModelAndView(RedirectView("/files"), mapOf("path" to subPath))
     }
 
-    @Secured("ROLE_USER")
     @PostMapping("/uploadFile")
     fun uploadFile(
             @RequestPart("file") file: MultipartFile,
             @RequestParam("path") path: String
     ): ModelAndView {
         val subPath = fileService.uploadFile(path, file)
+        return ModelAndView(RedirectView("/files"), mapOf("path" to subPath))
+    }
+
+    @GetMapping("/deleteFile")
+    fun deleteFile(
+            @RequestParam("path") path: String
+    ): ModelAndView {
+        val subPath = fileService.deleteFile(path)
         return ModelAndView(RedirectView("/files"), mapOf("path" to subPath))
     }
 }
