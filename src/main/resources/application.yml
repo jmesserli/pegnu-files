@@ -8,3 +8,4 @@ security:
 files:
   listing.baseDirectory: /home/dev/development
   download.baseUrl: http://10.128.129.2:13333
+  application.base-url: http://10.128.129.2:8080

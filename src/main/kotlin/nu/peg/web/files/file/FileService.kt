@@ -26,7 +26,7 @@ constructor(
                 .sorted()
                 .collect(Collectors.toList())
 
-        if (!targetPath.equals(basePath)) {
+        if (targetPath != basePath) {
             val relativePath = basePath.relativize(targetPath.resolve("..")).normalize()
             fileList.add(0, FileDto(targetPath, relativePath.toString(), true, ".."))
         }
@@ -74,6 +74,11 @@ data class FileDto(
 data class PathCheckResult(
         val basePath: Path,
         val targetPath: Path
+)
+
+data class BreadcrumbDto(
+        val relativePath: String,
+        val name: String
 )
 
 class TargetIsFileException : IOException("The target path is not a directory")

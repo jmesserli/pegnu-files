@@ -6,14 +6,34 @@
 
 <div class="container">
     <div class="list-group">
-        <a class="list-group-item list-group-item-action"
-           data-th-each="file: ${files}"
-           data-th-href="@{/files(path=${file.relativePath})}">
-            <i class="fas fa-folder" data-th-class="'fas ' + (${file.directory} ? 'fa-folder' : 'fa-file')"></i>
-            <span data-th-text="${file.fileName}"></span>
-        </a>
+        <div class="list-group-item p-0 d-flex"
+             data-th-each="file: ${files}">
+            <a class="btn btn-light" data-th-href="@{/files(path=${file.relativePath})}"
+               style="flex-grow : 1; text-align: left;">
+                <i class="fas fa-folder" data-th-class="'fas ' + (${file.directory} ? 'fa-folder' : 'fa-file')"></i>
+                <span class="ml-3" data-th-text="${file.fileName}">Filename.pdf</span>
+            </a>
+            <button class="btn btn-sm btn-clipboard btn-light m-0"
+                    data-th-attr="data-clipboard-text=@{${baseUrl + '/files'}(path=${file.relativePath})}">
+                <i class="fas fa-link"></i>
+            </button>
+        </div>
     </div>
 </div>
+
+<style>
+    .list-group > .list-group-item > .btn {
+        border-radius: 0;
+    }
+
+    .list-group > :first-child.list-group-item > :last-child.btn {
+        border-top-right-radius: 0.25em;
+    }
+
+    .list-group > :last-child.list-group-item > :last-child.btn {
+        border-bottom-right-radius: 0.25em;
+    }
+</style>
 
 <th-block data-th-replace="base :: foot"></th-block>
 </body>

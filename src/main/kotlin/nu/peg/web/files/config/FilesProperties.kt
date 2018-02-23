@@ -10,7 +10,9 @@ class FilesProperties(
         @NestedConfigurationProperty
         var listing: FilesListingProperties = FilesListingProperties(),
         @NestedConfigurationProperty
-        var download: FilesDownloadProperties = FilesDownloadProperties()
+        var download: FilesDownloadProperties = FilesDownloadProperties(),
+        @NestedConfigurationProperty
+        var application: FilesApplicationProperties = FilesApplicationProperties()
 )
 
 class FilesListingProperties(
@@ -19,4 +21,8 @@ class FilesListingProperties(
 
 class FilesDownloadProperties(
         var baseUrl: String = "https://cdn.peg.nu/files"
+)
+
+class FilesApplicationProperties(
+        var baseUrl: String = "http://10.128.129.2:8080"
 )
