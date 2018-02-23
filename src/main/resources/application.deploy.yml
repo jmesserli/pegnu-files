@@ -1,0 +1,12 @@
+spring:
+  session:
+    store-type: hash_map
+security:
+  user:
+    password: "#{USER_PASSWORD}"
+    name: "#{USER_NAME}"
+
+files:
+  listing.baseDirectory: "#{LISTING_BASEDIR}"
+  download.baseUrl: "#{DOWNLOAD_BASEURL}"
+  application.base-url: "#{APPLICATION_BASEURL}"

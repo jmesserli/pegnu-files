@@ -1,8 +1,22 @@
 buildscript {
     ext {
-        kotlinVersion = '1.2.20'
+        kotlinVersion = '1.2.21'
         springBootVersion = '1.5.10.RELEASE'
+
+        projectVersion = new File("$projectDir/VERSION").text
+
+        if (System.getenv('JENKINS_URL') != null && System.getenv('BUILD_NUMBER') != null) {
+            branch = System.getenv('BRANCH_NAME').replaceAll(/[^0-9A-Za-z-]+/, '-')
+            branch_suffix = "-" + branch
+            if (branch == 'master') {
+                branch_suffix = ""
+            }
+            projectVersion = projectVersion + '.' + System.getenv('BUILD_NUMBER') + branch_suffix
+        } else {
+            projectVersion = projectVersion + '-SNAPSHOT'
+        }
     }
+
     repositories {
         mavenCentral()
     }
@@ -20,8 +34,18 @@ apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 
 group = 'nu.peg.web'
-version = '0.0.1-SNAPSHOT'
+version = projectVersion
 sourceCompatibility = 1.8
+
+jar {
+    baseName = 'pegnu-files'
+}
+
+task configurationZip(type: Zip) {
+    archiveName = 'pegnu-files-configuration.' + projectVersion + '.zip'
+    from(fileTree(dir: 'src/main/resources').include('*.deploy.yml'))
+}
+
 compileKotlin {
     kotlinOptions {
         freeCompilerArgs = ["-Xjsr305=strict"]
@@ -38,7 +62,6 @@ compileTestKotlin {
 repositories {
     maven { url 'https://pkg.pegnu.cloud/repository/m2' }
 }
-
 
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-actuator')

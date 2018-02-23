@@ -4,6 +4,7 @@ spring:
 security:
   user:
     password: secret
+    name: user
 
 files:
   listing.baseDirectory: "C:\\Users\\joel\\Development\\JavaKotlin\\pegnu-files"
