@@ -5,6 +5,9 @@ security:
   user:
     password: "#{USER_PASSWORD}"
     name: "#{USER_NAME}"
+  http.multipart:
+    max-file-size: "#{MULTIPART_FILE_SIZE}"
+    max-request-size: "#{MULTIPART_REQUEST_SIZE}"
 
 files:
   listing.baseDirectory: "#{LISTING_BASEDIR}"

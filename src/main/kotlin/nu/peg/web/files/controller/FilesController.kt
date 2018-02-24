@@ -3,7 +3,6 @@ package nu.peg.web.files.controller
 import nu.peg.web.files.file.FileService
 import nu.peg.web.files.file.TargetIsFileException
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.security.access.annotation.Secured
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
