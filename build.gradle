@@ -71,7 +71,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-security')
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
     compile('org.springframework.boot:spring-boot-starter-web')
-    compile('com.fasterxml.jackson.module:jackson-module-kotlin')
+    compile('com.fasterxml.jackson.module:jackson-module-kotlin:2.9.2')
     compile('org.springframework.session:spring-session')
     compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
     compile("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
