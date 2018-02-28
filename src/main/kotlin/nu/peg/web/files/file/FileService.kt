@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import java.io.IOException
 import java.net.URI
+import java.net.URLEncoder
 import java.nio.file.*
 import java.util.stream.Collectors
 
@@ -39,7 +40,7 @@ constructor(
         val (basePath, targetPath) = checkSubpath(config.listing.baseDirectory, subPath)
         val relativeTargetPath = basePath.relativize(targetPath).normalize()
 
-        return URI("${config.download.baseUrl}/$relativeTargetPath").normalize()
+        return URI("${config.download.baseUrl}/${URLEncoder.encode(relativeTargetPath.toString(), "UTF-8")}").normalize()
     }
 
     fun generateBreadcrumbs(subPath: String): List<BreadcrumbDto> {
