@@ -4,9 +4,9 @@ import nu.peg.web.files.config.FilesProperties
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
+import org.springframework.web.util.UriComponentsBuilder
 import java.io.IOException
 import java.net.URI
-import java.net.URLEncoder
 import java.nio.file.*
 import java.util.stream.Collectors
 
@@ -40,12 +40,12 @@ constructor(
         val (basePath, targetPath) = checkSubpath(config.listing.baseDirectory, subPath)
         val relativeTargetPath = basePath.relativize(targetPath).normalize()
 
-        val encodedPath = relativeTargetPath.toString()
-                .split('/')
-                .map { URLEncoder.encode(it, "UTF-8") }
-                .joinToString("/")
+        val splitPath = relativeTargetPath.toString()
+                .split('/', '\\').toTypedArray()
 
-        return URI("${config.download.baseUrl}/$encodedPath").normalize()
+        return UriComponentsBuilder.fromHttpUrl(config.download.baseUrl)
+                .pathSegment(*splitPath)
+                .build().toUri().normalize()
     }
 
     fun generateBreadcrumbs(subPath: String): List<BreadcrumbDto> {
