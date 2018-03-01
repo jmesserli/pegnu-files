@@ -1,15 +1,15 @@
 spring:
   session:
     store-type: hash_map
+  http.multipart:
+    max-file-size: 50MB
+    max-request-size: 51MB
 security:
   user:
     password: secret
     name: user
-  http.multipart:
-    max-file-size: 50MB
-    max-request-size: 51MB
 
 files:
-  listing.baseDirectory: "C:\\Users\\joel\\Development\\Kotlin\\pegnu-files"
-  download.baseUrl: http://localhost:8080
+  listing.baseDirectory: "C:\\Users\\joel\\Development\\JavaKotlin\\pegnu-files"
+  download.baseUrl: http://localhost:8888/test
   application.base-url: http://localhost:8080

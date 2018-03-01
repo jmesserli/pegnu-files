@@ -26,7 +26,7 @@
                 <!--</li>-->
             </ul>
 
-            <div class="dropdown" data-th-if="${!loggedIn}">
+            <div class="dropdown" data-th-if="${loggedIn != null &amp;&amp; !loggedIn}">
                 <button class="btn btn-outline-light dropdown-toggle" type="button" id="loginDropdown"
                         data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">

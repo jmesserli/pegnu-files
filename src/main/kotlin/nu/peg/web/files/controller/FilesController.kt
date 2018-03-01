@@ -1,7 +1,7 @@
 package nu.peg.web.files.controller
 
 import nu.peg.web.files.file.FileService
-import nu.peg.web.files.file.TargetIsFileException
+import nu.peg.web.files.exception.TargetIsNotDirectoryException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -30,7 +30,7 @@ class FilesController @Autowired constructor(
     ): Any {
         val files = try {
             fileService.listFiles(path)
-        } catch (ex: TargetIsFileException) {
+        } catch (ex: TargetIsNotDirectoryException) {
             val view = RedirectView("/download")
             view.setPropagateQueryParams(true)
             return view

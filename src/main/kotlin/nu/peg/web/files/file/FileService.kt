@@ -1,13 +1,17 @@
 package nu.peg.web.files.file
 
 import nu.peg.web.files.config.FilesProperties
+import nu.peg.web.files.exception.SubPathIsNotInBasePathException
+import nu.peg.web.files.exception.TargetIsNotDirectoryException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.util.UriComponentsBuilder
-import java.io.IOException
 import java.net.URI
-import java.nio.file.*
+import java.nio.file.FileVisitOption
+import java.nio.file.Files
+import java.nio.file.NoSuchFileException
+import java.nio.file.Paths
 import java.util.stream.Collectors
 
 @Service
@@ -20,7 +24,7 @@ constructor(
         val (basePath, targetPath) = checkSubpath(config.listing.baseDirectory, subPath)
 
         if (!Files.isDirectory(targetPath))
-            throw TargetIsFileException()
+            throw TargetIsNotDirectoryException()
 
         val fileList = Files.walk(targetPath, 1, FileVisitOption.FOLLOW_LINKS)
                 .filter { it != targetPath }
@@ -102,7 +106,7 @@ constructor(
 
     fun deleteFile(subPath: String): String {
         val (basePath, targetPath) = checkSubpath(config.listing.baseDirectory, subPath)
-        Files.delete(targetPath)
+        Files.walkFileTree(targetPath, DeletingFileVisitor())
 
         return basePath.relativize(targetPath.parent).normalize().toString()
     }
@@ -120,35 +124,3 @@ constructor(
         return PathCheckResult(basePath, targetPath)
     }
 }
-
-data class FileDto(
-        val path: Path,
-        val relativePath: String,
-        val directory: Boolean,
-        val fileName: String = path.fileName.toString()
-) : Comparable<FileDto> {
-
-    override fun compareTo(other: FileDto): Int {
-        if (!directory) {
-            if (other.directory) return 1
-        } else if (!other.directory) return -1
-
-        return path.fileName.compareTo(other.path.fileName)
-    }
-}
-
-data class PathCheckResult(
-        val basePath: Path,
-        val targetPath: Path
-)
-
-data class BreadcrumbDto(
-        val relativePath: String,
-        val name: String,
-        val icon: String? = null,
-        var active: Boolean = false
-)
-
-class TargetIsFileException : IOException("The target path is not a directory")
-
-class SubPathIsNotInBasePathException : IOException("The sub path is not contained in the base path. Directory traversal?")

@@ -8,6 +8,9 @@
     <div class="jumbotron">
         <h1 class="display-4" data-th-text="${statusCode}">500</h1>
         <p class="lead" data-th-text="${statusText}">Unknown error</p>
+        <p class="text-muted" data-th-if="${detail}">
+            <small data-th-text="${detail}">Detailed exception</small>
+        </p>
         <p class="lead">
             <a class="btn btn-primary btn-lg" href="/" role="button">Back home</a>
         </p>
