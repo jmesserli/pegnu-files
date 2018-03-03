@@ -48,7 +48,7 @@ class FilesController @Autowired constructor(
             path: String
     ): RedirectView {
         val downloadUri = fileService.getDownloadLink(path)
-        return RedirectView(downloadUri.toString())
+        return RedirectView(downloadUri.toASCIIString())
     }
 
     @GetMapping("/createFolder")

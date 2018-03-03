@@ -40,7 +40,7 @@ constructor(
         return fileList
     }
 
-    fun getDownloadLink(subPath: String): URI? {
+    fun getDownloadLink(subPath: String): URI {
         val (basePath, targetPath) = checkSubpath(config.listing.baseDirectory, subPath)
         val relativeTargetPath = basePath.relativize(targetPath).normalize()
 
