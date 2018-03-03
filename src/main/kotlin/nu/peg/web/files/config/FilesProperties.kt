@@ -7,6 +7,8 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty
 
 @ConfigurationProperties("files")
 class FilesProperties(
+        var version: String = "vX-dev",
+
         @NestedConfigurationProperty
         var listing: FilesListingProperties = FilesListingProperties(),
         @NestedConfigurationProperty

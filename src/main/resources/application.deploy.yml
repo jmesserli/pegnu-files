@@ -10,6 +10,7 @@ security:
     name: "#{USER_NAME}"
 
 files:
+  version: "#{Octopus.Release.Number}"
   listing.baseDirectory: "#{LISTING_BASEDIR}"
   download.baseUrl: "#{DOWNLOAD_BASEURL}"
   application.base-url: "#{APPLICATION_BASEURL}"

@@ -20,6 +20,11 @@ class GlobalControllerAdvice @Autowired constructor(
         private val LOGGER: Logger = LoggerFactory.getLogger(GlobalControllerAdvice::class.java)
     }
 
+    @ModelAttribute("version")
+    fun version(): String {
+        return config.version
+    }
+
     @ModelAttribute("baseUrl")
     fun baseUrl(): String {
         return config.application.baseUrl
