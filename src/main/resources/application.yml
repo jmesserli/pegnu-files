@@ -11,6 +11,6 @@ security:
 
 files:
   version: 0.1.500
-  listing.baseDirectory: "C:\\Users\\joel\\Development\\JavaKotlin\\pegnu-files"
+  listing.baseDirectory: "/home/dev/Downloads"
   download.baseUrl: http://localhost:8888/test
   application.base-url: http://localhost:8080

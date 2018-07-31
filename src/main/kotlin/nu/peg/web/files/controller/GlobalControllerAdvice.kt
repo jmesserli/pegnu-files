@@ -2,6 +2,7 @@ package nu.peg.web.files.controller
 
 import nu.peg.web.files.config.FilesProperties
 import nu.peg.web.files.exception.SubPathIsNotInBasePathException
+import nu.peg.web.files.security.SecurityUtil
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -31,11 +32,7 @@ class GlobalControllerAdvice @Autowired constructor(
     }
 
     @ModelAttribute("loggedIn")
-    fun loggedIn(): Boolean {
-        val auth = SecurityContextHolder.getContext().authentication
-
-        return auth != null && auth.isAuthenticated && !auth.authorities.any { it.authority == "ROLE_ANONYMOUS" }
-    }
+    fun loggedIn() = SecurityUtil.isLoggedIn()
 
     @ModelAttribute("username")
     fun username(): String {

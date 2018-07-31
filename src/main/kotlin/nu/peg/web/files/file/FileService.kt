@@ -3,6 +3,7 @@ package nu.peg.web.files.file
 import nu.peg.web.files.config.FilesProperties
 import nu.peg.web.files.exception.SubPathIsNotInBasePathException
 import nu.peg.web.files.exception.TargetIsNotDirectoryException
+import nu.peg.web.files.security.SecurityUtil
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
@@ -26,9 +27,11 @@ constructor(
         if (!Files.isDirectory(targetPath))
             throw TargetIsNotDirectoryException()
 
+        val loggedIn = SecurityUtil.isLoggedIn()
         val fileList = Files.walk(targetPath, 1, FileVisitOption.FOLLOW_LINKS)
                 .filter { it != targetPath }
                 .map { FileDto(it, basePath.relativize(it).toString(), Files.isDirectory(it)) }
+                .filter { loggedIn || !it.fileName.startsWith(".") }
                 .sorted()
                 .collect(Collectors.toList())
 
