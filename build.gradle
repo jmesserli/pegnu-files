@@ -35,10 +35,11 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 group = 'nu.peg.web'
+
 version = projectVersion
 sourceCompatibility = 1.8
 
-jar {
+bootJar {
     baseName = 'pegnu-files'
 }
 
