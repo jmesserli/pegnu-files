@@ -32,6 +32,8 @@ pipeline {
         stage('Build') {
             steps {
                 sh './gradlew clean assemble configurationZip --stacktrace --info'
+                sh 'apt-get install -y tree'
+                sh 'tree .'
             }
 
             post {
