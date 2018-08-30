@@ -1,16 +1,26 @@
 spring:
   session:
-    store-type: hash_map
-  http.multipart:
-    max-file-size: 50MB
-    max-request-size: 51MB
-security:
-  user:
-    password: secret
-    name: user
+    store-type: NONE
+  security:
+    user:
+      password: secret
+      name: user
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 51MB
 
 files:
   version: 0.1.500
   listing.baseDirectory: "/home/dev/Downloads"
   download.baseUrl: http://localhost:8888/test
   application.base-url: http://localhost:8080
+
+keycloak:
+  realm: PegNu
+  auth-server-url: https://id.peg.nu/auth
+  ssl-required: external
+  resource: pegnu-files
+  credentials:
+    secret: 0
+  use-resource-role-mappings: true

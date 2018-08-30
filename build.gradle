@@ -1,7 +1,8 @@
 buildscript {
     ext {
-        kotlinVersion = '1.2.21'
-        springBootVersion = '1.5.10.RELEASE'
+        kotlinVersion = '1.2.41'
+        springBootVersion = '2.0.4.RELEASE'
+        keycloakVersion = '4.2.0.Final'
 
         projectVersion = new File("$projectDir/VERSION").text
 
@@ -30,8 +31,8 @@ buildscript {
 apply plugin: 'kotlin'
 apply plugin: 'kotlin-spring'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
 
 group = 'nu.peg.web'
 version = projectVersion
@@ -63,6 +64,12 @@ repositories {
     maven { url 'https://pkg.pegnu.cloud/repository/m2' }
 }
 
+dependencyManagement {
+    imports {
+        mavenBom "org.keycloak.bom:keycloak-adapter-bom:${keycloakVersion}"
+    }
+}
+
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-actuator')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
@@ -72,13 +79,15 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('com.fasterxml.jackson.module:jackson-module-kotlin:2.9.2')
-    compile('org.springframework.session:spring-session')
+    compile('org.springframework.session:spring-session-core')
     compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
     compile("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
+    compile('org.keycloak:keycloak-spring-boot-starter')
+    compile('org.springframework.boot:spring-boot-configuration-processor')
+
     runtime('org.springframework.boot:spring-boot-devtools')
     runtime('com.h2database:h2')
     kapt('org.springframework.boot:spring-boot-configuration-processor')
-    compile('org.springframework.boot:spring-boot-configuration-processor')
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.springframework.security:spring-security-test')
 }
