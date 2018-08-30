@@ -36,8 +36,8 @@ pipeline {
 
             post {
                 success {
-                    archiveArtifacts './build/libs/pegnu-files-*.jar'
-                    archiveArtifacts './build/distributions/pegnu-files-configuration*.zip'
+                    archiveArtifacts 'build/libs/pegnu-files-*.jar'
+                    archiveArtifacts 'build/distributions/pegnu-files-configuration*.zip'
                 }
             }
         }
@@ -49,7 +49,7 @@ pipeline {
 
             post {
                 always {
-                    junit './build/test-results/test/*.xml'
+                    junit 'build/test-results/test/*.xml'
                 }
             }
         }
