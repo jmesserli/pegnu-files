@@ -85,6 +85,7 @@ dependencies {
     compile("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
     compile('org.keycloak:keycloak-spring-boot-starter')
     compile('org.springframework.boot:spring-boot-configuration-processor')
+    compile('net.bytebuddy:byte-buddy')
 
     runtime('org.springframework.boot:spring-boot-devtools')
     runtime('com.h2database:h2')
