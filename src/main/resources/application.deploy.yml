@@ -4,13 +4,18 @@ spring:
   http.multipart:
     max-file-size: "#{MULTIPART_FILE_SIZE}"
     max-request-size: "#{MULTIPART_REQUEST_SIZE}"
-security:
-  user:
-    password: "#{USER_PASSWORD}"
-    name: "#{USER_NAME}"
 
 files:
   version: "#{Octopus.Release.Number}"
   listing.baseDirectory: "#{LISTING_BASEDIR}"
   download.baseUrl: "#{DOWNLOAD_BASEURL}"
   application.base-url: "#{APPLICATION_BASEURL}"
+
+keycloak:
+  realm: PegNu
+  auth-server-url: https://id.peg.nu/auth
+  ssl-required: external
+  resource: pegnu-files
+  use-resource-role-mappings: true
+  public-client: true
+  principal-attribute: preferred_username

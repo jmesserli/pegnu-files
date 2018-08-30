@@ -23,8 +23,8 @@
             </ol>
         </nav>
 
-        <div data-th-if="${loggedIn}" class="ml-3">
-            <div class="btn-group">
+        <div data-th-if="${canUpload || canMakeDirectory}" class="ml-3">
+            <div class="btn-group" data-th-if="${canUpload}">
                 <button type="button" class="btn btn-lg btn-outline-primary dropdown-toggle"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-upload"></i>
@@ -43,7 +43,7 @@
                     </form>
                 </div>
             </div>
-            <div class="btn-group">
+            <div class="btn-group" data-th-if="${canMakeDirectory}">
                 <button type="button" class="btn btn-lg btn-outline-primary dropdown-toggle"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-folder-open"></i>
@@ -73,7 +73,7 @@
             </a>
             <a class="btn btn-sm btn-danger d-flex align-items-center"
                data-th-href="@{/deleteFile(path=${file.relativePath})}"
-               data-th-if="${loggedIn &amp;&amp; (file.fileName != '..')}">
+               data-th-if="${canDelete &amp;&amp; (file.fileName != '..')}">
                 <i class="fas fa-trash"></i>
             </a>
             <button class="btn btn-sm btn-clipboard btn-secondary m-0"

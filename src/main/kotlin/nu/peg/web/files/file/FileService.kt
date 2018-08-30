@@ -27,7 +27,7 @@ constructor(
         if (!Files.isDirectory(targetPath))
             throw TargetIsNotDirectoryException()
 
-        val loggedIn = SecurityUtil.isLoggedIn()
+        val loggedIn = SecurityUtil.canSeeHidden()
         val fileList = Files.walk(targetPath, 1, FileVisitOption.FOLLOW_LINKS)
                 .filter { it != targetPath }
                 .map { FileDto(it, basePath.relativize(it).toString(), Files.isDirectory(it)) }

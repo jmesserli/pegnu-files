@@ -34,6 +34,21 @@ class GlobalControllerAdvice @Autowired constructor(
     @ModelAttribute("loggedIn")
     fun loggedIn() = SecurityUtil.isLoggedIn()
 
+    @ModelAttribute("canSeeHidden")
+    fun canSeeHidden() = SecurityUtil.canSeeHidden()
+
+    @ModelAttribute("canUpload")
+    fun canUpload() = SecurityUtil.canUpload()
+
+    @ModelAttribute("canMakeDirectory")
+    fun canMakeDirectory() = SecurityUtil.canMakeDirectory()
+
+    @ModelAttribute("canDelete")
+    fun canDelete() = SecurityUtil.canDelete()
+
+    @ModelAttribute("isAdmin")
+    fun isAdmin() = SecurityUtil.isAdmin()
+
     @ModelAttribute("username")
     fun username(): String {
         val auth = SecurityContextHolder.getContext().authentication
