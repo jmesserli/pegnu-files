@@ -8,6 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 class PegnuFilesApplication
 
 fun main(args: Array<String>) {
-//    OAuthRequestAuthenticatorFixer.ensureExecution()
+    OAuthRequestAuthenticatorFixer.ensureExecution()
     SpringApplication.run(PegnuFilesApplication::class.java, *args)
 }
