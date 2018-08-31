@@ -69,11 +69,11 @@ class WebSecurityConfig : KeycloakWebSecurityConfigurerAdapter() {
 
         http.authorizeRequests()
                 .antMatchers("/createFolder")
-                .hasRole(SecurityUtil.Role.MAKE_DIRECTORY)
+                .hasAuthority(SecurityUtil.Role.MAKE_DIRECTORY)
                 .antMatchers("/uploadFile")
-                .hasRole(SecurityUtil.Role.UPLOAD)
+                .hasAuthority(SecurityUtil.Role.UPLOAD)
                 .antMatchers("/deleteFile")
-                .hasRole(SecurityUtil.Role.DELETE)
+                .hasAuthority(SecurityUtil.Role.DELETE)
                 .anyRequest().permitAll()
     }
 }
