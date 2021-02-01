@@ -27,14 +27,14 @@
             </ul>
 
             <div class="dropdown" data-th-if="${loggedIn != null &amp;&amp; !loggedIn}">
-                <a class="btn btn-outline-light" id="loginBtn" data-th-href="@{/oauth2/authorization/keycloak}">
+                <a class="btn btn-outline-light" id="loginBtn" data-th-href="@{/sso/login}">
                     Login
                 </a>
             </div>
             <span class="navbar-text" data-th-text="'Hallo, ' + ${username}" data-th-if="${loggedIn}">Hallo, User</span>
             <span class="navbar-text ml-1" data-th-if="${canSeeHidden}"><i class="fas fa-eye"></i></span>
             <span class="navbar-text ml-1" data-th-if="${isAdmin}"><i class="fas fa-hand-spock"></i></span>
-            <form data-th-action="@{/logout}" method="post">
+            <form data-th-action="@{/sso/logout}" method="post">
                 <input type="hidden" data-th-attr="name=${_csrf.parameterName},value=${_csrf.token}"/>
 
                 <button type="submit" class="btn btn-outline-light ml-3" data-th-if="${loggedIn}">

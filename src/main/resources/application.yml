@@ -7,27 +7,14 @@ spring:
       max-file-size: ${SPRING_MAX_FILE_SIZE:50MB}
       max-request-size: ${SPRING_MAX_REQUEST_SIZE:51MB}
 
-  security:
-    oauth2:
-      client:
-        registration:
-          keycloak:
-            client-id: ${OAUTH_CLIENT_ID}
-            client-secret: ${OAUTH_CLIENT_SECRET}
-            client-name: ${OAUTH_CLIENT_NAME:Keycloak}
-            authorization-grant-type: ${OAUTH_GRANT_TYPE:authorization_code}
-            redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
-            scope:
-              - openid
-              - profile
-              - email
-        provider:
-          keycloak:
-            authorization-uri: ${KEYCLOAK_BASE}/auth/realms/${KEYCLOAK_REALM}/protocol/openid-connect/auth
-            token-uri: ${KEYCLOAK_BASE}/auth/realms/${KEYCLOAK_REALM}/protocol/openid-connect/token
-            user-info-uri: ${KEYCLOAK_BASE}/auth/realms/${KEYCLOAK_REALM}/protocol/openid-connect/userinfo
-            jwk-set-uri: ${KEYCLOAK_BASE}/auth/realms/${KEYCLOAK_REALM}/protocol/openid-connect/certs
-            user-name-attribute: ${OAUTH_USERNAME_ATTRIBUTE:preferred_username}
+keycloak:
+  realm: ${KEYCLOAK_REALM}
+  auth-server-url: ${KEYCLOAK_BASE}/auth
+  ssl-required: external
+  resource: ${KEYCLOAK_CLIENT_ID}
+  credentials:
+    secret: ${KEYCLOAK_CLIENT_SECRET}
+  use-resource-role-mappings: true
 
 files:
   listing-base-dir: ${PFS_LISTING_BASE:C:\Users\joel\Downloads\}
