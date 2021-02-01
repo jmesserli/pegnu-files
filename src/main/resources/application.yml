@@ -8,9 +8,9 @@ spring:
 
 files:
   version: 0.1.500
-  listing.baseDirectory: "C:\\Users\\joel\\Downloads\\"
-  download.baseUrl: http://localhost:8888/test
-  application.base-url: http://localhost:8080
+  listing.baseDirectory: ${PFS_LISTING_BASE:"C:\\Users\\joel\\Downloads\\"}
+  download.baseUrl: ${PFS_DOWNLOAD_BASE:http://localhost:8888/test}
+  application.base-url: ${PFS_WEB_BASE:http://localhost:8080}
 
 keycloak:
   realm: PegNu
