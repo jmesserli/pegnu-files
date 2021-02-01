@@ -26,12 +26,16 @@ jobs:
         username: ${{ github.repository_owner }}
         password: ${{ secrets.GH_ACCESS_TOKEN }}
         
-    - name: Build and push Docker images
+    - name: Build Docker image
       uses: docker/build-push-action@v2.2.2
       with:
         context: .
         file: ./Dockerfile
         tags: |
-          ghcr.io/jmesserli/pegnu-files:${{ github.run_id }}
+          ghcr.io/jmesserli/pegnu-files:${{ github.run_number }}
           ghcr.io/jmesserli/pegnu-files:latest
-        push: ${{ github.event_name != 'pull_request' }}
+        load: ${{ github.event_name != 'pull_request' }}
+    
+    - name: Push Docker image
+      if: ${{ github.event_name != 'pull_request' }}
+      run: docker push ghcr.io/jmesserli/pegnu-files:${{ github.run_number }} && docker push ghcr.io/jmesserli/pegnu-files:latest
