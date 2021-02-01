@@ -12,8 +12,6 @@ buildscript {
         } else {
             projectVersion = projectVersion + '-SNAPSHOT'
         }
-
-        println(projectVersion)
     }
 }
 
