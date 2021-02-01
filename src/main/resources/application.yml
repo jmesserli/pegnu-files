@@ -1,22 +1,35 @@
 spring:
   session:
-    store-type: NONE
+    store-type: ${SPRING_SESSION_STORE:NONE}
+
   servlet:
     multipart:
-      max-file-size: 50MB
-      max-request-size: 51MB
+      max-file-size: ${SPRING_MAX_FILE_SIZE:50MB}
+      max-request-size: ${SPRING_MAX_REQUEST_SIZE:51MB}
+
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: ${OAUTH_CLIENT_ID}
+            client-secret: ${OAUTH_CLIENT_SECRET}
+            client-name: ${OAUTH_CLIENT_NAME:Keycloak}
+            authorization-grant-type: ${OAUTH_GRANT_TYPE:authorization_code}
+            redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+            scope:
+              - openid
+              - profile
+              - email
+        provider:
+          keycloak:
+            authorization-uri: ${KEYCLOAK_BASE}/auth/realms/${KEYCLOAK_REALM}/protocol/openid-connect/auth
+            token-uri: ${KEYCLOAK_BASE}/auth/realms/${KEYCLOAK_REALM}/protocol/openid-connect/token
+            user-info-uri: ${KEYCLOAK_BASE}/auth/realms/${KEYCLOAK_REALM}/protocol/openid-connect/userinfo
+            jwk-set-uri: ${KEYCLOAK_BASE}/auth/realms/${KEYCLOAK_REALM}/protocol/openid-connect/certs
+            user-name-attribute: ${OAUTH_USERNAME_ATTRIBUTE:preferred_username}
 
 files:
-  version: 0.1.500
-  listing.baseDirectory: ${PFS_LISTING_BASE:"C:\\Users\\joel\\Downloads\\"}
-  download.baseUrl: ${PFS_DOWNLOAD_BASE:http://localhost:8888/test}
-  application.base-url: ${PFS_WEB_BASE:http://localhost:8080}
-
-keycloak:
-  realm: PegNu
-  auth-server-url: https://id.peg.nu/auth
-  ssl-required: external
-  resource: pegnu-files
-  use-resource-role-mappings: true
-  public-client: true
-  principal-attribute: preferred_username
+  listing-base-dir: ${PFS_LISTING_BASE:C:\Users\joel\Downloads\}
+  download-base-dir: ${PFS_DOWNLOAD_BASE:http://localhost:8888/test}
+  web-base-url: ${PFS_WEB_BASE:http://localhost:8080}

@@ -6,6 +6,7 @@ import nu.peg.web.files.security.SecurityUtil
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.info.GitProperties
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -15,7 +16,8 @@ import java.nio.file.NoSuchFileException
 
 @ControllerAdvice
 class GlobalControllerAdvice @Autowired constructor(
-        private val config: FilesProperties
+    private val config: FilesProperties,
+    private val gitProperties: GitProperties
 ) {
     companion object {
         private val LOGGER: Logger = LoggerFactory.getLogger(GlobalControllerAdvice::class.java)
@@ -23,12 +25,12 @@ class GlobalControllerAdvice @Autowired constructor(
 
     @ModelAttribute("version")
     fun version(): String {
-        return config.version
+        return gitProperties.shortCommitId ?: "DEV"
     }
 
     @ModelAttribute("baseUrl")
     fun baseUrl(): String {
-        return config.application.baseUrl
+        return config.webBaseUrl
     }
 
     @ModelAttribute("loggedIn")

@@ -19,21 +19,21 @@ import java.util.stream.Collectors
 class FileService
 @Autowired
 constructor(
-        private val config: FilesProperties
+    private val config: FilesProperties
 ) {
     fun listFiles(subPath: String): List<FileDto> {
-        val (basePath, targetPath) = checkSubpath(config.listing.baseDirectory, subPath)
+        val (basePath, targetPath) = checkSubpath(config.listingBaseDir, subPath)
 
         if (!Files.isDirectory(targetPath))
             throw TargetIsNotDirectoryException()
 
         val loggedIn = SecurityUtil.canSeeHidden()
         val fileList = Files.walk(targetPath, 1, FileVisitOption.FOLLOW_LINKS)
-                .filter { it != targetPath }
-                .map { FileDto(it, basePath.relativize(it).toString(), Files.isDirectory(it)) }
-                .filter { loggedIn || !it.fileName.startsWith(".") }
-                .sorted()
-                .collect(Collectors.toList())
+            .filter { it != targetPath }
+            .map { FileDto(it, basePath.relativize(it).toString(), Files.isDirectory(it)) }
+            .filter { loggedIn || !it.fileName.startsWith(".") }
+            .sorted()
+            .collect(Collectors.toList())
 
         if (targetPath != basePath) {
             val relativePath = basePath.relativize(targetPath.resolve("..")).normalize()
@@ -44,19 +44,19 @@ constructor(
     }
 
     fun getDownloadLink(subPath: String): URI {
-        val (basePath, targetPath) = checkSubpath(config.listing.baseDirectory, subPath)
+        val (basePath, targetPath) = checkSubpath(config.listingBaseDir, subPath)
         val relativeTargetPath = basePath.relativize(targetPath).normalize()
 
         val splitPath = relativeTargetPath.toString()
-                .split('/', '\\').toTypedArray()
+            .split('/', '\\').toTypedArray()
 
-        return UriComponentsBuilder.fromHttpUrl(config.download.baseUrl)
-                .pathSegment(*splitPath)
-                .build().toUri().normalize()
+        return UriComponentsBuilder.fromHttpUrl(config.downloadBaseDir)
+            .pathSegment(*splitPath)
+            .build().toUri().normalize()
     }
 
     fun generateBreadcrumbs(subPath: String): List<BreadcrumbDto> {
-        val (basePath, targetPath) = checkSubpath(config.listing.baseDirectory, subPath)
+        val (basePath, targetPath) = checkSubpath(config.listingBaseDir, subPath)
 
         val homeDto = BreadcrumbDto("", "Home", "fa-home")
         if (basePath == targetPath) {
@@ -68,10 +68,12 @@ constructor(
         val relativeTargetPath = basePath.relativize(targetPath)
         var parent = relativeTargetPath
         do {
-            breadcrumbs.add(BreadcrumbDto(
+            breadcrumbs.add(
+                BreadcrumbDto(
                     parent.toString(),
                     parent.fileName.toString()
-            ))
+                )
+            )
         } while ({ parent = parent.parent; parent }() != null)
         breadcrumbs.add(homeDto)
         breadcrumbs[0].active = true
@@ -80,7 +82,7 @@ constructor(
     }
 
     fun createFolder(subPath: String, folderName: String): String {
-        val (basePath, targetPath) = checkSubpath(config.listing.baseDirectory, subPath)
+        val (basePath, targetPath) = checkSubpath(config.listingBaseDir, subPath)
         val folderTarget = targetPath.resolve(folderName).normalize()
 
         if (!folderTarget.startsWith(basePath)) {
@@ -95,7 +97,7 @@ constructor(
     }
 
     fun uploadFile(subPath: String, file: MultipartFile): String {
-        val (basePath, targetPath) = checkSubpath(config.listing.baseDirectory, subPath)
+        val (basePath, targetPath) = checkSubpath(config.listingBaseDir, subPath)
         val filePath = targetPath.resolve(file.originalFilename).normalize()
 
         if (!filePath.startsWith(basePath)) {
@@ -108,7 +110,7 @@ constructor(
     }
 
     fun deleteFile(subPath: String): String {
-        val (basePath, targetPath) = checkSubpath(config.listing.baseDirectory, subPath)
+        val (basePath, targetPath) = checkSubpath(config.listingBaseDir, subPath)
         Files.walkFileTree(targetPath, DeletingFileVisitor())
 
         return basePath.relativize(targetPath.parent).normalize().toString()
