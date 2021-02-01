@@ -1,22 +1,23 @@
 spring:
   session:
-    store-type: NONE
+    store-type: ${SPRING_SESSION_STORE:NONE}
+
   servlet:
     multipart:
-      max-file-size: 50MB
-      max-request-size: 51MB
-
-files:
-  version: 0.1.500
-  listing.baseDirectory: "C:\\Users\\joel\\Downloads\\"
-  download.baseUrl: http://localhost:8888/test
-  application.base-url: http://localhost:8080
+      max-file-size: ${SPRING_MAX_FILE_SIZE:50MB}
+      max-request-size: ${SPRING_MAX_REQUEST_SIZE:51MB}
 
 keycloak:
-  realm: PegNu
-  auth-server-url: https://id.peg.nu/auth
+  realm: ${KEYCLOAK_REALM}
+  auth-server-url: ${KEYCLOAK_BASE}/auth
   ssl-required: external
-  resource: pegnu-files
+  resource: ${KEYCLOAK_CLIENT_ID}
+  credentials:
+    secret: ${KEYCLOAK_CLIENT_SECRET}
   use-resource-role-mappings: true
-  public-client: true
   principal-attribute: preferred_username
+
+files:
+  listing-base-dir: ${PFS_LISTING_BASE:C:\Users\joel\Downloads\}
+  download-base-dir: ${PFS_DOWNLOAD_BASE:http://localhost:8888/test}
+  web-base-url: ${PFS_WEB_BASE:http://localhost:8080}

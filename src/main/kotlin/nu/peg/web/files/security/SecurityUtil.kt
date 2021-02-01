@@ -21,7 +21,7 @@ object SecurityUtil {
         if (!isLoggedIn())
             return false
 
-        return SecurityContextHolder.getContext().authentication.authorities.any { it.authority == role }
+        return SecurityContextHolder.getContext().authentication.authorities.any { it.authority == "ROLE_$role" }
     }
 
     fun canSeeHidden() = hasRole(Role.SEE_HIDDEN)

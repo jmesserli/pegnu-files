@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  files:
+    build: .
+
+    environment:
+      OAUTH_CLIENT_ID: <client>
+      OAUTH_CLIENT_SECRET: <secret>
+      OAUTH_CLIENT_NAME: <keycloak>
+      KEYCLOAK_BASE: <https://id.peg.nu>
+      KEYCLOAK_REALM: <PegNu>
+
+      PFS_LISTING_BASE: /opt/pegnu-files/data
+      PFS_DOWNLOAD_BASE: https://cdn.peg.nu/files
+      PFS_WEB_BASE: https://files.peg.nu
+
+    volumes:
+      - ./data:/opt/pegnu-files/data
+
+    ports:
+      - 8080:8080
