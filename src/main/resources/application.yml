@@ -15,6 +15,7 @@ keycloak:
   credentials:
     secret: ${KEYCLOAK_CLIENT_SECRET}
   use-resource-role-mappings: true
+  principal-attribute: preferred_username
 
 files:
   listing-base-dir: ${PFS_LISTING_BASE:C:\Users\joel\Downloads\}
