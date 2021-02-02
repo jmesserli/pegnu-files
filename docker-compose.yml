@@ -5,9 +5,8 @@ services:
     build: .
 
     environment:
-      OAUTH_CLIENT_ID: <client>
-      OAUTH_CLIENT_SECRET: <secret>
-      OAUTH_CLIENT_NAME: <keycloak>
+      KEYCLOAK_CLIENT_ID: <client>
+      KEYCLOAK_CLIENT_SECRET: <secret>
       KEYCLOAK_BASE: <https://id.peg.nu>
       KEYCLOAK_REALM: <PegNu>
 

@@ -30,7 +30,7 @@ repositories {
 
 group = 'nu.peg.web'
 version = projectVersion
-sourceCompatibility = '15'
+sourceCompatibility = '11'
 
 bootJar {
     archiveBaseName = 'pegnu-files'
