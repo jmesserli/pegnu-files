@@ -21,3 +21,6 @@ files:
   listing-base-dir: ${PFS_LISTING_BASE:C:\Users\joel\Downloads\}
   download-base-dir: ${PFS_DOWNLOAD_BASE:http://localhost:8888/test}
   web-base-url: ${PFS_WEB_BASE:http://localhost:8080}
+
+server:
+  forward-headers-strategy: native
