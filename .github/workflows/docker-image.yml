@@ -35,7 +35,7 @@ jobs:
         password: ${{ secrets.GH_ACCESS_TOKEN }}
     
     - name: Build image
-      run: gradle bootBuildImage --imageName ghcr.io/${{ github.repository }} --publishImage true
+      run: gradle bootBuildImage --imageName ghcr.io/${{ github.repository }} --publishImage
         
 #     - name: Build Docker image
 #       uses: docker/build-push-action@v2.2.2
