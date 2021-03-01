@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head data-th-fragment="head">
     <!-- Required meta tags -->
     <meta charset="utf-8"/>
@@ -7,6 +7,8 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.peg.nu/files/lib/css/bootstrap/4.6.0/bootstrap.min.css"/>
+
+    <script th:remove="tag" th:each="snippet : ${headSnippets}" th:utext="${snippet}"></script>
 
     <title>PegNu Files</title>
 </head>

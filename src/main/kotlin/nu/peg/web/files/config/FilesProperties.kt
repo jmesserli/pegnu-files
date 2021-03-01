@@ -6,5 +6,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 class FilesProperties(
     var listingBaseDir: String = "",
     var downloadBaseDir: String = "",
-    var webBaseUrl: String = ""
+    var webBaseUrl: String = "",
+    var headSnippets: List<String> = listOf()
 )

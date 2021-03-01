@@ -1,5 +1,6 @@
 package nu.peg.web.files.controller
 
+import nu.peg.web.files.config.FilesProperties
 import nu.peg.web.files.file.FileService
 import nu.peg.web.files.exception.TargetIsNotDirectoryException
 import org.springframework.beans.factory.annotation.Autowired
@@ -15,7 +16,8 @@ import org.springframework.web.servlet.view.RedirectView
 
 @Controller
 class FilesController @Autowired constructor(
-        private val fileService: FileService
+    private val fileService: FileService,
+    private val filesProperties: FilesProperties
 ) {
     @GetMapping("/")
     fun home(): RedirectView {
@@ -24,9 +26,9 @@ class FilesController @Autowired constructor(
 
     @GetMapping("/files")
     fun files(
-            model: Model,
-            @RequestParam("path", required = false, defaultValue = "")
-            path: String
+        model: Model,
+        @RequestParam("path", required = false, defaultValue = "")
+        path: String
     ): Any {
         val files = try {
             fileService.listFiles(path)
@@ -39,13 +41,14 @@ class FilesController @Autowired constructor(
         model.addAttribute("path", path)
         model.addAttribute("files", files)
         model.addAttribute("breadcrumbs", fileService.generateBreadcrumbs(path))
+        model.addAttribute("headSnippets", filesProperties.headSnippets)
         return "files"
     }
 
     @GetMapping("/download")
     fun download(
-            @RequestParam("path", required = true)
-            path: String
+        @RequestParam("path", required = true)
+        path: String
     ): RedirectView {
         val downloadUri = fileService.getDownloadLink(path)
         return RedirectView(downloadUri.toASCIIString())
@@ -53,11 +56,11 @@ class FilesController @Autowired constructor(
 
     @GetMapping("/createFolder")
     fun createFolder(
-            @RequestParam("path", required = true)
-            path: String,
-            @RequestParam("folderName", required = true)
-            folderName: String,
-            model: Model
+        @RequestParam("path", required = true)
+        path: String,
+        @RequestParam("folderName", required = true)
+        folderName: String,
+        model: Model
     ): ModelAndView {
         val subPath = fileService.createFolder(path, folderName)
         return ModelAndView(RedirectView("/files"), mapOf("path" to subPath))
@@ -65,8 +68,8 @@ class FilesController @Autowired constructor(
 
     @PostMapping("/uploadFile")
     fun uploadFile(
-            @RequestPart("file") file: MultipartFile,
-            @RequestParam("path") path: String
+        @RequestPart("file") file: MultipartFile,
+        @RequestParam("path") path: String
     ): ModelAndView {
         val subPath = fileService.uploadFile(path, file)
         return ModelAndView(RedirectView("/files"), mapOf("path" to subPath))
@@ -74,7 +77,7 @@ class FilesController @Autowired constructor(
 
     @GetMapping("/deleteFile")
     fun deleteFile(
-            @RequestParam("path") path: String
+        @RequestParam("path") path: String
     ): ModelAndView {
         val subPath = fileService.deleteFile(path)
         return ModelAndView(RedirectView("/files"), mapOf("path" to subPath))

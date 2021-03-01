@@ -83,6 +83,7 @@ Configurable through environment variables:
 | PFS_LISTING_BASE        | Directory to show on the web interface          |     /pegnu-files-data      |
 | PFS_DOWNLOAD_BASE       | Base URL for downloads (CDN URL / nginx / etc.) | http://localhost:8888/test |
 | PFS_WEB_BASE            | Base URL for the web interface                  |   http://localhost:8080    |
+| PFS_ANALYTICS_SNIPPET   | Snippet to be added to the head                 |                            |
 
 ### Keycloak Roles
 

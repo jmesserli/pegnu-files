@@ -21,6 +21,8 @@ files:
   listing-base-dir: ${PFS_LISTING_BASE:/pegnu-files-data}
   download-base-dir: ${PFS_DOWNLOAD_BASE:http://localhost:8888/test}
   web-base-url: ${PFS_WEB_BASE:http://localhost:8080}
+  head-snippets:
+    - ${PFS_ANALYTICS_SNIPPET:}
 
 server:
   forward-headers-strategy: native
